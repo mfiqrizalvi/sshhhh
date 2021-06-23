@@ -1,6 +1,4 @@
-working_dir: &working_dir ~/app
-
-.build_template: &build_definition
+version: 2.0
   steps:
     - checkout
     - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -10,8 +8,6 @@ working_dir: &working_dir ~/app
     - run: bundle install --jobs=4 --retry=4 --path vendor/bundle
     - run: bundle exec rake rubocop
     - run: ./deploy.sh
-
-version: 2.0
 
 jobs:
   build:
